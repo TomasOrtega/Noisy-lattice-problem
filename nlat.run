@@ -1,0 +1,10 @@
+reset;
+model nlat.mod;
+data nlat.dat;
+# option solver Bonmin;
+# option bonmin_options 'bonmin.time_limit 60';
+# Gurobi finds solutions with 1000000 iterations or more... not great
+option solver Gurobi;
+option gurobi_options 'nonconvex=2 iterlim=1000000';
+solve;
+display bv;
