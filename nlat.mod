@@ -23,3 +23,13 @@ subject to CoordRest1 {i in 1..ndim, j in 1..nmes}:
 	coord[j, i] <= nmes;
 subject to CoordRest2 {i in 1..ndim, j in 1..nmes}:
 	coord[j, i] >= -nmes;
+
+# suggest a starting solution for the solver, this can be commented
+
+# let bv[1,1] := -1.2;
+#let bv[1,2] := 11;
+
+#let bv[2,1] := -11.2;
+#let bv[2,2] := -1.18;
+
+#let or[2] := 63.2;

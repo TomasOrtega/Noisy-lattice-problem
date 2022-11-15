@@ -1,6 +1,12 @@
 reset;
 model nlat.mod;
 data nlat.dat;
+let bv[1,1] := -1.2;
+let bv[1,2] := 11;
+let bv[2,1] := -11.2;
+let bv[2,2] := -1.18;
+let or[1]:= 31.9;
+let or[2] := 63.2;
 # option solver Bonmin;
 # option bonmin_options 'bonmin.time_limit 60';
 # Gurobi finds solutions with 1000000 iterations or more... not great

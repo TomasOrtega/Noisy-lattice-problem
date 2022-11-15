@@ -73,8 +73,23 @@ end
 plotLattice(noisyMes, coords, or, v1, v2);
 
 %% Helper functions
+function plotGrid(coords, or, v1, v2)
+    minx = min(coords(1, :));
+    maxx = max(coords(1, :));
+    miny = min(coords(2, :));
+    maxy = max(coords(2, :));
+    [x, y] = meshgrid(minx:maxx, miny:maxy);
+    xy = [x(:), y(:)];
+    T = [v1, v2]';
+    xyt = xy * T;
+    xt = reshape(xyt(:,1), size(x));
+    yt = reshape(xyt(:,2), size(y));
+    plot(xt + or(1), yt + or(2), 'r:', 'LineWidth', 0.1)
+    hold on;
+    plot(xt' + or(1), yt' + or(2), 'r:', 'LineWidth', 0.1)
+end
 
-function res = plotLattice(noisyMes, coords, or, v1, v2)
+function plotLattice(noisyMes, coords, or, v1, v2)
     % coords is a 2 x n array, n >= 2
     % or is the origin of coordinates
     % v1 and v2 are column vectors, the basis of the lattice
@@ -86,6 +101,7 @@ function res = plotLattice(noisyMes, coords, or, v1, v2)
     x = points(1, :);
     y = points(2, :);
     scatter(x, y, 'x', 'MarkerFaceColor', 'r', 'LineWidth', 2);
+    plotGrid(coords, or, v1, v2);
     hold off;
     axis square;
 end
