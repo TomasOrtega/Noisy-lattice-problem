@@ -16,7 +16,7 @@ minimize obj:
 
 # we define the errors
 subject to DefErrs {i in 1..ndim, j in 1..nmes}:
-	errs[j, i] = -meas[j, i] + or[i] + (sum {k in 1..ndim} coord[j, i] * bv[k, i]);
+	errs[j, i] = -meas[j, i] + or[i] + (sum {k in 1..ndim} coord[j, k] * bv[k, i]);
 	
 # we impose that the coordinates must be between -n and n
 subject to CoordRest1 {i in 1..ndim, j in 1..nmes}:
