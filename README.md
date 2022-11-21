@@ -7,3 +7,7 @@ See the image below for an example. The circles are the given noisy measurements
 We then compute the minimum square error lattice, plotted with dotted lines in the figure. The crosses are where the adjusted measurements fall in the lattice.
 
 ![Lattice Example](example.png)
+
+An iterative procedure is used to obtain the solution, seen in the animation below.
+
+![Lattice Animation](animation.gif)
