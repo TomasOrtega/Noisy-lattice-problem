@@ -10,9 +10,9 @@ function [coords, or, v1, v2] = denoiseLattice(noisyMes)
     y = noisyMes(2, :);
     scatter(x, y, 'linewidth', 4, 'MarkerEdgeColor', [0 1 0]);
 
-    %% Pick a random inital guess and find distances
+    %% Pick an origin and initial basis
     pDist = squareform(pdist(noisyMes'));
-    g = 23; % randi(n);
+    [~, g] = min(sum(pDist)); % pick the origin as the point with min sum distance to every other point
     [~, idx] = sort(pDist(:, g)); % indexes of points from nearest to furthest of g
     or = noisyMes(:, g);
     v1 = noisyMes(:, idx(2)) - or; % Vector from g to its closest neighbor
@@ -64,10 +64,8 @@ function [coords, or, v1, v2] = denoiseLattice(noisyMes)
         or = [x(1); x(2)];
         v1 = [x(3); x(4)];
         v2 = [x(5); x(6)];
-        % if it == nIterations
-        % plotLattice(noisyMes(:, idx(1:it)), coords(:, idx(1:it)), or, v1, v2);
-        % pause(0.1);
-        % end
+        plotLattice(noisyMes(:, idx(1:it)), coords(:, idx(1:it)), or, v1, v2);
+%         exportgraphics(gcf,'animated.gif', 'Append', true);
     end
 
     %% Plot the result
