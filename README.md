@@ -10,4 +10,4 @@ We then compute the minimum square error lattice, plotted with dotted lines in t
 
 An iterative procedure is used to obtain the solution, seen in the animation below.
 
-![Lattice Animation](animation.gif)
+![Lattice Animation](animated.gif)
