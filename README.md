@@ -76,27 +76,6 @@ from denoise_lattice import denoise_lattice
 
 The Python implementation includes an example usage in the main block that generates random noisy lattice points and demonstrates the algorithm.
 
-### Running Tests
-
-The Python implementation includes a comprehensive test suite. To run the tests:
-
-```bash
-uv run python -m unittest test_denoise_lattice.py
-```
-
-The tests cover:
-* Basic functionality
-  - Output shapes and types
-  - Integer coordinate validation
-  - Basis vector properties
-* Edge cases
-  - Minimum number of points (4)
-  - Different noise levels
-  - Input validation
-* Quality checks
-  - Reconstruction error
-  - Consistency across multiple runs
-
 ### MATLAB Version
 
 ```matlab
@@ -170,10 +149,6 @@ or the maximum number of iterations is reached.
 ![Example of Noisy Measurements and Recovered Lattice](example.png)
 
 ![Lattice Fitting Animation](animated.gif)
-
-## Contributing
-
-Contributions are welcome! Please fork the repository, create a feature branch, and open a pull request for review. For Python contributions, please ensure all tests pass and add new tests for any new functionality.
 
 ## License
 
