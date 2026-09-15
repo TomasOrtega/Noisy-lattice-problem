@@ -2,8 +2,9 @@
 
 This repository implements an algorithm to recover the underlying lattice structure from noisy 2D measurements. Given a set of points perturbed by Gaussian noise, the code estimates the lattice origin and basis vectors that minimize the overall mean squared error (MSE) and outputs the integer lattice coordinates for each point.
 
-See the image below for an example. The circles are the given noisy measurements, which we are given initially.
-We then compute the minimum square error lattice, plotted with dotted lines in the figure. The crosses are where the adjusted measurements fall in the lattice.
+See the image below for an example. The circles are the original noisy measurements.
+The dotted lines show the lattice that minimizes the mean squared reconstruction error,
+and the crosses show the corresponding denoised lattice points.
 
 ![Lattice Example](example.png)
 
@@ -28,9 +29,12 @@ An iterative procedure is used to obtain the solution, seen in the animation bel
 * SciPy >= 1.7.0
 * Matplotlib >= 3.3.0
 
-Install dependencies:
+Create a virtual environment and install the dependencies with
+[uv](https://docs.astral.sh/uv/):
+
 ```bash
-pip install -r requirements.txt
+uv venv
+uv pip install -r requirements.txt
 ```
 
 ### MATLAB Version
@@ -77,7 +81,7 @@ The Python implementation includes an example usage in the main block that gener
 The Python implementation includes a comprehensive test suite. To run the tests:
 
 ```bash
-python -m unittest test_denoise_lattice.py
+uv run python -m unittest test_denoise_lattice.py
 ```
 
 The tests cover:
@@ -114,22 +118,54 @@ noisyLatticeIncremental
 
 ## Algorithm Overview
 
-1. **Initialization**: Select an initial origin as the point with the smallest sum of distances to all other points. Initialize basis vectors using the nearest neighbor and its perpendicular.
-2. **Coordinate Assignment**: For each measurement, compute floating-point lattice coordinates by solving:
+### 1. Initialization
 
-   $$
-     \lambda = [v_1\; v_2]^{-1}(p - origin),
-   $$
+Select an initial origin as the point with the smallest sum of distances to all
+other points. Initialize the first basis vector using its nearest neighbor and
+the second as the perpendicular vector.
 
-   then round within a small search window to find the nearest integer lattice coordinates.
-3. **Basis Refinement**: Optimize the origin and basis vectors by minimizing total squared reconstruction error:
+### 2. Coordinate Assignment
 
-   $$
-     \min_{origin, v_1, v_2} \sum_k \|origin + \lambda_k^1 v_1 + \lambda_k^2 v_2 - p_k\|^2
-   $$
+Form the basis matrix
 
-   using optimization tools (`fminsearch` in MATLAB, `scipy.optimize.fmin` in Python).
-4. **Iteration**: Alternate between coordinate assignment and basis refinement until convergence or maximum iterations.
+$$
+V = \begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix}.
+$$
+
+For each measurement $\mathbf{p}_k$, compute its floating-point lattice
+coordinates:
+
+$$
+\widetilde{\boldsymbol{\lambda}}_k
+= V^{-1}\left(\mathbf{p}_k - \mathbf{o}\right).
+$$
+
+Search a small window around the rounded result to select the nearest integer
+coordinates $\boldsymbol{\lambda}_k \in \mathbb{Z}^2$.
+
+### 3. Basis Refinement
+
+Optimize the origin $\mathbf{o}$ and basis vectors $\mathbf{v}_1, \mathbf{v}_2$
+by minimizing the total squared reconstruction error:
+
+$$
+\min_{\mathbf{o}, \mathbf{v}_1, \mathbf{v}_2}
+\sum_{k=1}^{n}
+\left\lVert
+\mathbf{o} +
+\lambda_{k,1}\mathbf{v}_1 +
+\lambda_{k,2}\mathbf{v}_2 -
+\mathbf{p}_k
+\right\rVert_2^2.
+$$
+
+The implementation solves this problem with `fminsearch` in MATLAB and
+`scipy.optimize.fmin` in Python.
+
+### 4. Iteration
+
+Alternate between coordinate assignment and basis refinement until convergence
+or the maximum number of iterations is reached.
 
 ![Example of Noisy Measurements and Recovered Lattice](example.png)
 

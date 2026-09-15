@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.12.12"
+          cache-dependency-glob: requirements.txt
+
+      - name: Install dependencies and CI tools
+        run: |
+          uv venv --python 3.12
+          uv pip install -r requirements.txt
+          uv pip install prek==0.5.3
+
+      - name: Run Ruff with prek
+        run: |
+          source .venv/bin/activate
+          prek -a --quiet
+
+      - name: Run tests
+        env:
+          MPLBACKEND: Agg
+        run: uv run python -m unittest
