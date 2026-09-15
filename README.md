@@ -23,18 +23,13 @@ An iterative procedure is used to obtain the solution, seen in the animation bel
 
 ## Requirements
 
-### Python Version
-* Python 3.6 or later
-* NumPy >= 1.19.0
-* SciPy >= 1.7.0
-* Matplotlib >= 3.3.0
+### Python
 
 Create a virtual environment and install the dependencies with
 [uv](https://docs.astral.sh/uv/):
 
 ```bash
-uv venv
-uv pip install -r requirements.txt
+uv sync
 ```
 
 ### MATLAB Version
@@ -47,7 +42,8 @@ uv pip install -r requirements.txt
 ```
 /denoise_lattice.py          Main Python function for batch lattice denoising
 /test_denoise_lattice.py     Python test suite
-/requirements.txt            Python package dependencies
+/pyproject.toml              Project metadata and dependency declarations
+/uv.lock                     Locked Python dependencies
 /denoiseLattice.m            Main MATLAB function for batch lattice denoising
 /legacy_matlab/              Legacy MATLAB scripts for baseline implementations
     noisyLattice.m           Simple batch version with heuristic initialization

@@ -3,6 +3,7 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -11,24 +12,54 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
       - uses: astral-sh/setup-uv@v10.1.0
         with:
           version: "0.12.12"
-          cache-dependency-glob: requirements.txt
+          cache-dependency-glob: uv.lock
 
       - name: Install dependencies and CI tools
-        run: |
-          uv venv --python 3.12
-          uv pip install -r requirements.txt
-          uv pip install prek==0.5.3
+        run: uv sync --locked --python 3.12
 
       - name: Run Ruff with prek
-        run: |
-          source .venv/bin/activate
-          prek -a --quiet
+        run: uv run --locked prek -a --quiet
 
       - name: Run tests
         env:
           MPLBACKEND: Agg
-        run: uv run python -m unittest
+        run: uv run --locked python -m unittest
+
+  pages:
+    name: Build Pages
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: checks
+    permissions:
+      contents: read
+      pages: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/configure-pages@v6.0.0
+      - uses: actions/jekyll-build-pages@v1.0.13
+        with:
+          source: ./
+          destination: ./_site
+      - uses: actions/upload-pages-artifact@v5.0.0
+
+  deploy:
+    name: Deploy Pages
+    needs: pages
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5.0.1
