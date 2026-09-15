@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using these metadata."
+title: "Noisy Lattice Denoising"
+type: software
+authors:
+  - family-names: "Ortega"
+    given-names: "Tomàs"
+    orcid: "https://orcid.org/0000-0003-1446-2145"
+repository-code: "https://github.com/TomasOrtega/Noisy-lattice-problem"
+url: "https://tomasortega.net/Noisy-lattice-problem/"
+license: GPL-3.0-only

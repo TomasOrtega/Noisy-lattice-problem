@@ -177,10 +177,13 @@ Contributions are welcome! Please fork the repository, create a feature branch, 
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+This project is licensed under the GNU General Public License v3.0. See
+[LICENSE](LICENSE) for details.
 
 ## Citation
 
-If you use this code in your research or projects, please cite:
+If you use this software, please cite it using the metadata in
+[CITATION.cff](CITATION.cff).
 
-> T. Ortega, "Noisy Lattice Denoising," GitHub repository, 2025. Available at [https://github.com/TomasOrtega/Noisy-lattice-problem](https://github.com/TomasOrtega/Noisy-lattice-problem)
+Project website:
+[https://tomasortega.net/Noisy-lattice-problem/](https://tomasortega.net/Noisy-lattice-problem/)
